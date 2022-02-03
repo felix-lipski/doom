@@ -19,13 +19,17 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Terminus" :size 20 :weight 'semi-light)
+(setq doom-font (font-spec :family "Terminus" :size 16 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox)
+; (setq doom-theme 'doom-solarized-dark)
+; (setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-spacelix)
+; (setq doom-themes-enable-bold t)    ; if nil, bold is universally disabled
+;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -35,6 +39,16 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+
+
+(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.\\(pl\\|pro\\|lgt\\)" . prolog-mode))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -52,3 +66,12 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(defun +private/treemacs-back-and-forth ()
+  (interactive)
+  (if (treemacs-is-treemacs-window-selected?)
+      (aw-flip-window)
+    (treemacs-select-window)))
+
+(map! :after treemacs
+      :leader
+      :n "-" #'+private/treemacs-back-and-forth)
