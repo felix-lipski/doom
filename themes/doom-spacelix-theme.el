@@ -1,1 +1,0 @@
-/nix/store/vyq864vmi30pvb58jsp4zc6myiy695v9-home-manager-files/.doom.d/themes/doom-spacelix-theme.el
